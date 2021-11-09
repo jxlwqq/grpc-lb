@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-http
+  labels:
+    app: client-http
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client-http
+  template:
+    metadata:
+      labels:
+        app: client-http
+    spec:
+      containers:
+        - name: client-http
+          image: jxlwqq/client-http
+          imagePullPolicy: IfNotPresent
+          args:
+            - "--url=http://server:80/pod"

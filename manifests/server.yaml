@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+  labels:
+    app: server
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+        - name: server
+          image: jxlwqq/server
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+            - containerPort: 30051
+          args:
+            - --pod-name=$(POD_NAME)
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server
+  labels:
+    app: server
+spec:
+  selector:
+    app: server
+  ports:
+    - port: 80
+      targetPort: 80
+      name: http
+    - port: 30051
+      targetPort: 30051
+      name: grpc
+
+

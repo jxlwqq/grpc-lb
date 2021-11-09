@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package pod;
+
+option go_package = "github.com/jxlwqq/grpc-lb/api/pod";
+
+service pod {
+  rpc getInfo(request) returns (response) {}
+}
+
+message request {
+}
+
+message response {
+  string name = 1;
+}

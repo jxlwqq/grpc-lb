@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-grpc
+  labels:
+    app: client-grpc
+spec:
+  selector:
+    matchLabels:
+      app: client-grpc
+  template:
+    metadata:
+      labels:
+        app: client-grpc
+    spec:
+      containers:
+        - name: client-grpc
+          image: jxlwqq/client-grpc
+          imagePullPolicy: IfNotPresent
+          args:
+            - "--host=server:30051"
