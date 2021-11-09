@@ -32,10 +32,14 @@ istioctl install -y
 | `make kube-delete` | 删除服务 |
 | `make istio-inject` | 注入 Istio 边车 |
 
+具体逻辑，请查看 Makefile 文件。
+
 
 ### L4 vs L7 负载均衡
 
-所谓四层就是基于 IP + 端口的负载均衡，七层就是基于 URL 等应用层信息的负载均衡；
+所谓的四层就是基于 IP + 端口的负载均衡，而七层就是基于 URL 等应用层信息的负载均衡； Kubernetes 内置的 Service 负载均衡基于 iptables/ipvs 实现，仅支持 L4。换句话说， Service 支持 HTTP/1.1 协议，不支持 HTTP/2 协议。 
+
+而 Envoy(Istio) 则更为全能，支持被 gRPC 请求和响应的作为路由和负载均衡底层的所有 HTTP/2 功能。
 
 ### 项目架构
 
@@ -45,4 +49,46 @@ istioctl install -y
 * cmd/client-http/main.go: HTTP 客户端，通过 HTTP 方式，循环调用服务端接口，并打印返回值。
 * cmd/client-rpc/main.go: gRPC 客户端，通过 RPC 方式，循环远程调用服务端方法，并打印返回值。
 
+### 测试 Service
+
+构建镜像并部署在集群中：
+
+```shell
+make docker-build # 构建镜像
+make kube-deploy  # 在集群中部署服务
+```
+
+详细逻辑请查看 Makefile 文件。
+
+查看 Pod 日志：
+
+```shell
+kubectl get pods
+kubectl logs client-http-aaaaa-bbbbb # 查看 client-http Pod 的日志
+kubectl logs client-grpc-ccccc-ddddd # 查看 client-grpc Pod 的日志
+```
+
+可以看出，HTTP 请求在进行有效负载，而 RPC 请求在进行无效负载。
+
+### 测试 Envoy(Istio)
+
+我们在集群中已经部署了一个 Istio，但是没有设置自动注入的命令空间，所以我们在这里进行手动注入。
+
+手动注入：
+
+```shell
+make istio-inject # 注入 Istio 边车
+```
+
+详细逻辑请查看 Makefile 文件。
+
+查看 Pod 日志：
+
+```shell
+kubectl get pods
+kubectl logs client-http-eeeee-fffff # 查看 client-http Pod 的日志
+kubectl logs client-grpc-ggggg-hhhhh # 查看 client-grpc Pod 的日志
+```
+
+可以看出，HTTP 请求 和 RPC 请求均在进行有效负载。
 
