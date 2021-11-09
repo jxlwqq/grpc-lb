@@ -1,4 +1,4 @@
-# Kubernetes 中的 gRPC 负载平衡
+# Kubernetes 中的 gRPC 负载均衡
 
 ### 安装环境依赖
 
