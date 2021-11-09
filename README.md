@@ -47,7 +47,7 @@ istioctl install -y
 
 * cmd/server/main.go: 服务端，同时提供 HTTP 和 RPC 服务。响应的数据为服务端容器所在的 Pod 名称，基于 [Downward API](https://kubernetes.io/zh/docs/tasks/inject-data-application/environment-variable-expose-pod-information/)。
 * cmd/client-http/main.go: HTTP 客户端，通过 HTTP 方式，循环调用服务端接口，并打印返回值。
-* cmd/client-rpc/main.go: gRPC 客户端，通过 RPC 方式，循环远程调用服务端方法，并打印返回值。
+* cmd/client-grpc/main.go: gRPC 客户端，通过 RPC 方式，循环远程调用服务端方法，并打印返回值。
 
 ### 测试 Service
 
