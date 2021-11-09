@@ -25,9 +25,9 @@ istioctl install -y
 
 |  命令   | 说明  |
 |  ----  | ----  |
-| `make init`  | 安装 protoc-gen-go 和 protoc-gen-grpc 二进制文件 |
-| `make protoc`  | 基于 proto 文件，生成 pb.go 和 grpc.pb.go 文件 |
-| `make docker-build`  | 构建镜像 |
+| `make init`  | 安装 protoc-gen-go 和 protoc-gen-grpc |
+| `make protoc`  | 基于 proto 文件，生成 *_pb.go 和 *_grpc.pb.go |
+| `make docker-build`  | 构建 docker 镜像 |
 | `make kube-deploy` | 在集群中部署服务 |
 | `make kube-delete` | 删除服务 |
 | `make istio-inject` | 注入 Istio 边车 |
