@@ -45,9 +45,13 @@ istioctl install -y
 
 本项目分别测试 Service 和 Envoy(Istio) 对 HTTP/RPC 负载均衡的支持情况。
 
-* cmd/server/main.go: 服务端，同时提供 HTTP 和 RPC 服务。响应的数据为服务端容器所在的 Pod 名称，基于 [Downward API](https://kubernetes.io/zh/docs/tasks/inject-data-application/environment-variable-expose-pod-information/)。
+* cmd/server/main.go: 服务端，同时提供 HTTP 和 RPC 服务。响应的数据为服务端容器所在的 Pod 名称，（基于 [Downward API](https://kubernetes.io/zh/docs/tasks/inject-data-application/environment-variable-expose-pod-information/)）。
 * cmd/client-http/main.go: HTTP 客户端，通过 HTTP 方式，循环调用服务端接口，并打印返回值。
 * cmd/client-grpc/main.go: gRPC 客户端，通过 RPC 方式，循环远程调用服务端方法，并打印返回值。
+
+### 测试原理
+
+服务端 server 在 Kubernetes 集群中以 Deployment 的方式部署 3 个副本，3 个副本的 Pod 名称各不相同，而 client-http 和 client-grpc 则会每秒调用一次服务端，并打印返回值。如果返回值中，三个 Pod 的名称都存在，则表明正在进行有效的负载均衡，否则，则表明未进行有效的负载均衡。
 
 ### 测试 Service
 
