@@ -83,7 +83,7 @@ server-7c4bfd74d-fk8zf         1/1     Running   0          2m51s
 
 查看 client-http Pod 的日志：
 
-< Pod 名称的后缀部分是随机生成的，请替换为你自己的。
+> Pod 名称的后缀部分是随机生成的，请替换为你自己的。
 
 ```shell
 kubectl logs client-http-55d95c744d-f7nx4
