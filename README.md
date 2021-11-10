@@ -83,10 +83,10 @@ server-7c4bfd74d-fk8zf         1/1     Running   0          2m51s
 
 查看 client-http Pod 的日志：
 
-> Pod 名称的后缀部分是随机生成的，请替换为你自己的。
 
 ```shell
-kubectl logs client-http-55d95c744d-f7nx4
+export CLIENT_HTTP_POD=$(kubectl get pod -l app=client-http -o jsonpath={.items..metadata.name})
+kubectl logs "${CLIENT_HTTP_POD}"
 ```
 
 返回：
@@ -105,7 +105,8 @@ kubectl logs client-http-55d95c744d-f7nx4
 查看 client-grpc Pod 的日志：
 
 ```shell
-kubectl logs client-grpc-6c565594f4-tdf75
+export CLIENT_GRPC_POD=$(kubectl get pod -l app=client-grpc -o jsonpath={.items..metadata.name})
+kubectl logs "${CLIENT_GRPC_POD}"
 ```
 
 返回：
@@ -157,7 +158,8 @@ server-7846bd6bb4-hzqj6        2/2     Running   0          34s
 查看 client-http Pod 的日志：
 
 ```shell
-kubectl logs client-http-f8964854c-jclkd
+export CLIENT_HTTP_POD=$(kubectl get pod -l app=client-http -o jsonpath={.items..metadata.name})
+kubectl logs "${CLIENT_HTTP_POD}"
 ```
 
 返回：
@@ -176,7 +178,8 @@ kubectl logs client-http-f8964854c-jclkd
 
 查看 client-grpc Pod 的日志：
 ```shell
-kubectl logs client-grpc-7864f57779-f6blx
+export CLIENT_GRPC_POD=$(kubectl get pod -l app=client-grpc -o jsonpath={.items..metadata.name})
+kubectl logs "${CLIENT_GRPC_POD}"
 ```
 
 返回：
@@ -200,6 +203,6 @@ kubectl logs client-grpc-7864f57779-f6blx
 
 ```shell
 make kube-delete
-istioctl x uninstall --purge
+istioctl experimental uninstall --purge
 ```
 
