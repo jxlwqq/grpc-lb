@@ -32,14 +32,24 @@ docker-build:
 
 .PHONY: kube-deploy
 kube-deploy:
-	kubectl apply -f manifests
+	kubectl apply -f manifests/server.yaml
+	kubectl rollout status deployment/server
+	kubectl apply -f manifests/client-http.yaml
+	kubectl rollout status deployment/client-http
+	kubectl apply -f manifests/client-grpc.yaml
+	kubectl rollout status deployment/client-grpc
+	kubectl get pods
 
 .PHONY: kube-delete
 kube-delete:
 	kubectl delete -f manifests
 
-.PHONY: kube-inject
-kube-inject:
+.PHONY: istio-inject
+istio-inject:
 	istioctl kube-inject -f manifests/server.yaml | kubectl apply -f -
+	kubectl rollout status deployment/server
 	istioctl kube-inject -f manifests/client-http.yaml | kubectl apply -f -
+	kubectl rollout status deployment/client-http
 	istioctl kube-inject -f manifests/client-grpc.yaml | kubectl apply -f -
+	kubectl rollout status deployment/client-grpc
+	kubectl get pods
