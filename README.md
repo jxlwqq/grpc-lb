@@ -64,13 +64,64 @@ make kube-deploy  # 在集群中部署服务
 
 详细逻辑请查看 Makefile 文件。
 
-查看 Pod 日志：
+查看 Pod：
 
 ```shell
 kubectl get pods
-kubectl logs client-http-aaaaa-bbbbb # 查看 client-http Pod 的日志
-kubectl logs client-grpc-ccccc-ddddd # 查看 client-grpc Pod 的日志
 ```
+
+返回：
+
+```shell
+NAME                           READY   STATUS    RESTARTS   AGE
+client-grpc-6c565594f4-tdf75   1/1     Running   0          2m48s
+client-http-55d95c744d-f7nx4   1/1     Running   0          2m49s
+server-7c4bfd74d-29c69         1/1     Running   0          2m51s
+server-7c4bfd74d-4btvw         1/1     Running   0          2m51s
+server-7c4bfd74d-fk8zf         1/1     Running   0          2m51s
+```
+
+查看 client-http Pod 的日志：
+
+< Pod 名称的后缀部分是随机生成的，请替换为你自己的。
+
+```shell
+kubectl logs client-http-55d95c744d-f7nx4
+```
+
+返回：
+```shell
+#1: server-7c4bfd74d-4btvw
+#2: server-7c4bfd74d-4btvw
+#3: server-7c4bfd74d-29c69
+#4: server-7c4bfd74d-fk8zf
+#5: server-7c4bfd74d-fk8zf
+#6: server-7c4bfd74d-29c69
+#7: server-7c4bfd74d-fk8zf
+#8: server-7c4bfd74d-4btvw
+#9: server-7c4bfd74d-fk8zf
+```
+
+查看 client-grpc Pod 的日志：
+
+```shell
+kubectl logs client-grpc-6c565594f4-tdf75
+```
+
+返回：
+
+```shell
+#1: server-7c4bfd74d-fk8zf
+#2: server-7c4bfd74d-fk8zf
+#3: server-7c4bfd74d-fk8zf
+#4: server-7c4bfd74d-fk8zf
+#5: server-7c4bfd74d-fk8zf
+#6: server-7c4bfd74d-fk8zf
+#7: server-7c4bfd74d-fk8zf
+#8: server-7c4bfd74d-fk8zf
+#9: server-7c4bfd74d-fk8zf
+```
+
 
 可以看出，HTTP 请求在进行有效负载，而 RPC 请求在进行无效负载。
 
@@ -86,13 +137,69 @@ make istio-inject # 注入 Istio 边车
 
 详细逻辑请查看 Makefile 文件。
 
-查看 Pod 日志：
+查看 Pod：
 
 ```shell
 kubectl get pods
-kubectl logs client-http-eeeee-fffff # 查看 client-http Pod 的日志
-kubectl logs client-grpc-ggggg-hhhhh # 查看 client-grpc Pod 的日志
+```
+
+返回：
+
+```shell
+NAME                           READY   STATUS    RESTARTS   AGE
+client-grpc-7864f57779-f6blx   2/2     Running   0          17s
+client-http-f8964854c-jclkd    2/2     Running   0          21s
+server-7846bd6bb4-bcfws        2/2     Running   0          27s
+server-7846bd6bb4-fv29s        2/2     Running   0          40s
+server-7846bd6bb4-hzqj6        2/2     Running   0          34s
+```
+
+查看 client-http Pod 的日志：
+
+```shell
+kubectl logs client-http-f8964854c-jclkd
+```
+
+返回：
+
+```shell
+#1: server-7846bd6bb4-hzqj6
+#2: server-7846bd6bb4-fv29s
+#3: server-7846bd6bb4-hzqj6
+#4: server-7846bd6bb4-hzqj6
+#5: server-7846bd6bb4-hzqj6
+#6: server-7846bd6bb4-hzqj6
+#7: server-7846bd6bb4-hzqj6
+#8: server-7846bd6bb4-bcfws
+#9: server-7846bd6bb4-fv29s
+```
+
+查看 client-grpc Pod 的日志：
+```shell
+kubectl logs client-grpc-7864f57779-f6blx
+```
+
+返回：
+
+```shell
+#1: server-7846bd6bb4-fv29s
+#2: server-7846bd6bb4-hzqj6
+#3: server-7846bd6bb4-fv29s
+#4: server-7846bd6bb4-bcfws
+#5: server-7846bd6bb4-fv29s
+#6: server-7846bd6bb4-hzqj6
+#7: server-7846bd6bb4-fv29s
+#8: server-7846bd6bb4-bcfws
+#9: server-7846bd6bb4-fv29s
 ```
 
 可以看出，HTTP 请求 和 RPC 请求均在进行有效负载。
+
+
+### 清理
+
+```shell
+make kube-delete
+istioctl x uninstall --purge
+```
 
