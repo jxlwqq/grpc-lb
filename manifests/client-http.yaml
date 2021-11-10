@@ -20,3 +20,10 @@ spec:
           imagePullPolicy: IfNotPresent
           args:
             - "--url=http://server:80/pod"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
