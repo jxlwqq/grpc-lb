@@ -69,10 +69,10 @@ docker images ls
 返回：
 
 ```shell
-REPOSITORY                                                       TAG                                                     IMAGE ID       CREATED          SIZE
-grpc-lb/client-grpc                                              latest                                                  95d32ead8d9b   12 seconds ago   16.6MB
-grpc-lb/client-http                                              latest                                                  dbf0341206f6   22 seconds ago   11.5MB
-grpc-lb/server                                                   latest                                                  1ef346785b2a   29 seconds ago   18.2MB
+REPOSITORY            TAG       IMAGE ID       CREATED          SIZE
+grpc-lb/client-grpc   latest    95d32ead8d9b   12 seconds ago   16.6MB
+grpc-lb/client-http   latest    dbf0341206f6   22 seconds ago   11.5MB
+grpc-lb/server        latest    1ef346785b2a   29 seconds ago   18.2MB
 ```
 
 部署到集群中：
