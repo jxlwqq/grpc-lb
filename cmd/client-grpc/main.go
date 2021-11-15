@@ -29,14 +29,13 @@ func callAndShowResponse(client pb.PodClient) {
 
 func main() {
 	flag.Parse()
-	fmt.Printf("Connecting to %s...\n", *host)
+
 	conn, err := grpc.Dial(*host, grpc.WithInsecure())
 	if err != nil {
 		panic(err)
 	}
 	defer conn.Close()
 
-	fmt.Printf("Making rpc...\n")
 	client := pb.NewPodClient(conn)
 	for {
 		callAndShowResponse(client)
