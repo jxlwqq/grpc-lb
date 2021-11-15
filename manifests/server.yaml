@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: jxlwqq/server
+          image: grpc-lb/server
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80

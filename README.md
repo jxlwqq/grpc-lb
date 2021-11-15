@@ -34,7 +34,6 @@ istioctl install -y
 
 具体逻辑，请查看 Makefile 文件。
 
-
 ### L4 vs L7 负载均衡
 
 所谓的四层就是基于 IP + 端口的负载均衡，而七层就是基于 URL 等应用层信息的负载均衡； Kubernetes 内置的 Service 负载均衡基于 iptables/ipvs 实现，仅支持 L4。换句话说， Service 支持 HTTP/1.1 协议，不支持 HTTP/2 协议。 
@@ -55,14 +54,33 @@ istioctl install -y
 
 ### 测试 Service
 
-构建镜像并部署在集群中：
+构建镜像：
 
 ```shell
-make docker-build # 构建镜像
+make docker-build # 构建镜像（构建好的镜像，不 push 到远程仓库中）
+```
+
+查看镜像：
+
+```shell
+docker images ls
+```
+
+返回：
+
+```shell
+REPOSITORY                                                       TAG                                                     IMAGE ID       CREATED          SIZE
+grpc-lb/client-grpc                                              latest                                                  95d32ead8d9b   12 seconds ago   16.6MB
+grpc-lb/client-http                                              latest                                                  dbf0341206f6   22 seconds ago   11.5MB
+grpc-lb/server                                                   latest                                                  1ef346785b2a   29 seconds ago   18.2MB
+```
+
+部署到集群中：
+
+```shell
 make kube-deploy  # 在集群中部署服务
 ```
 
-详细逻辑请查看 Makefile 文件。
 
 查看 Pod：
 
@@ -135,8 +153,6 @@ kubectl logs "${CLIENT_GRPC_POD}"
 ```shell
 make istio-inject # 注入 Istio 边车
 ```
-
-详细逻辑请查看 Makefile 文件。
 
 查看 Pod：
 

@@ -26,9 +26,9 @@ protoc:
 
 .PHONY: docker-build
 docker-build:
-	docker build -t jxlwqq/server -f ./cmd/server/Dockerfile .
-	docker build -t jxlwqq/client-http -f ./cmd/client-http/Dockerfile .
-	docker build -t jxlwqq/client-grpc -f ./cmd/client-grpc/Dockerfile .
+	docker build -t grpc-lb/server -f ./cmd/server/Dockerfile .
+	docker build -t grpc-lb/client-http -f ./cmd/client-http/Dockerfile .
+	docker build -t grpc-lb/client-grpc -f ./cmd/client-grpc/Dockerfile .
 
 .PHONY: kube-deploy
 kube-deploy:

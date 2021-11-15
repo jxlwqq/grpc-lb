@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: client-grpc
-          image: jxlwqq/client-grpc
+          image: grpc-lb/client-grpc
           imagePullPolicy: IfNotPresent
           args:
             - "--host=server:30051"
