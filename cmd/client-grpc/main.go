@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	pb "github.com/jxlwqq/grpc-lb/api/protobuf/pod"
+	"github.com/jxlwqq/grpc-lb/api/protobuf"
 	flag "github.com/spf13/pflag"
 	"google.golang.org/grpc"
 	"time"
@@ -17,8 +17,8 @@ var counter int
 
 var host = flag.String("host", "", "grpc host port")
 
-func callAndShowResponse(client pb.PodClient) {
-	resp, err := client.GetInfo(context.Background(), &pb.Request{})
+func callAndShowResponse(client protobuf.PodClient) {
+	resp, err := client.GetInfo(context.Background(), &protobuf.Request{})
 	if err != nil {
 		panic(err)
 	}
@@ -36,7 +36,7 @@ func main() {
 	}
 	defer conn.Close()
 
-	client := pb.NewPodClient(conn)
+	client := protobuf.NewPodClient(conn)
 	for {
 		callAndShowResponse(client)
 		time.Sleep(waitDuration)

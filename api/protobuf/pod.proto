@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package pod;
+package api.protobuf;
 
-option go_package = "github.com/jxlwqq/grpc-lb/api/pod";
+option go_package = "github.com/jxlwqq/grpc-lb/api/protobuf";
 
 service pod {
   rpc getInfo(request) returns (response) {}

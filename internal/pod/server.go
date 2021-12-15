@@ -2,22 +2,22 @@ package pod
 
 import (
 	"context"
-	"github.com/jxlwqq/grpc-lb/api/protobuf/pod"
+	"github.com/jxlwqq/grpc-lb/api/protobuf"
 )
 
 type server struct {
-	pod.UnimplementedPodServer
+	protobuf.UnimplementedPodServer
 	podName string
 }
 
-func NewServer(podName string) pod.PodServer {
+func NewServer(podName string) protobuf.PodServer {
 	return &server{
 		podName: podName,
 	}
 }
 
-func (s *server) GetInfo(ctx context.Context, req *pod.Request) (*pod.Response, error) {
-	return &pod.Response{
+func (s *server) GetInfo(ctx context.Context, req *protobuf.Request) (*protobuf.Response, error) {
+	return &protobuf.Response{
 		Name: s.podName,
 	}, nil
 }

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	pb "github.com/jxlwqq/grpc-lb/api/protobuf/pod"
+	"github.com/jxlwqq/grpc-lb/api/protobuf"
 	"github.com/jxlwqq/grpc-lb/internal/pod"
 	flag "github.com/spf13/pflag"
 	"google.golang.org/grpc"
@@ -41,7 +41,7 @@ func main() {
 	s := grpc.NewServer()
 	server := pod.NewServer(*podName)
 
-	pb.RegisterPodServer(s, server)
+	protobuf.RegisterPodServer(s, server)
 
 	err = s.Serve(lis)
 	if err != nil {

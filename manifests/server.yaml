@@ -27,7 +27,7 @@ spec:
             - name: POD_NAME
               valueFrom:
                 fieldRef:
-                  fieldPath: metadata.name
+                  fieldPath: metadata.name # Downward API
           resources:
             requests:
               cpu: 100m
