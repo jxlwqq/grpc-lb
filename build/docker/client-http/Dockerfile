@@ -11,7 +11,7 @@ COPY cmd/ cmd/
 COPY internal/ internal/
 RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -a -o app cmd/client-http/main.go
 
-FROM alpine
+FROM --platform=$TARGETPLATFORM alpine
 WORKDIR /
 COPY --from=builder /workspace/app .
 ENTRYPOINT ["/app"]
