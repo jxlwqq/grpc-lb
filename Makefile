@@ -26,30 +26,30 @@ protoc:
 
 .PHONY: docker-build
 docker-build:
-	docker build -t grpc-lb/server -f ./cmd/server/Dockerfile .
-	docker build -t grpc-lb/client-http -f ./cmd/client-http/Dockerfile .
-	docker build -t grpc-lb/client-grpc -f ./cmd/client-grpc/Dockerfile .
+	docker build -t grpc-lb/server -f ./build/docker/server/Dockerfile .
+	docker build -t grpc-lb/client-http -f ./build/docker/client-http/Dockerfile .
+	docker build -t grpc-lb/client-grpc -f ./build/docker/client-grpc/Dockerfile .
 
 .PHONY: kube-deploy
 kube-deploy:
-	kubectl apply -f manifests/server.yaml
+	kubectl apply -f deployments/server.yaml
 	kubectl rollout status deployment/server
-	kubectl apply -f manifests/client-http.yaml
+	kubectl apply -f deployments/client-http.yaml
 	kubectl rollout status deployment/client-http
-	kubectl apply -f manifests/client-grpc.yaml
+	kubectl apply -f deployments/client-grpc.yaml
 	kubectl rollout status deployment/client-grpc
 	kubectl get pods
 
 .PHONY: kube-delete
 kube-delete:
-	kubectl delete -f manifests
+	kubectl delete -f deployments
 
 .PHONY: istio-inject
 istio-inject:
-	istioctl kube-inject -f manifests/server.yaml | kubectl apply -f -
+	istioctl kube-inject -f deployments/server.yaml | kubectl apply -f -
 	kubectl rollout status deployment/server
-	istioctl kube-inject -f manifests/client-http.yaml | kubectl apply -f -
+	istioctl kube-inject -f deployments/client-http.yaml | kubectl apply -f -
 	kubectl rollout status deployment/client-http
-	istioctl kube-inject -f manifests/client-grpc.yaml | kubectl apply -f -
+	istioctl kube-inject -f deployments/client-grpc.yaml | kubectl apply -f -
 	kubectl rollout status deployment/client-grpc
 	kubectl get pods
